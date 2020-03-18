@@ -42,15 +42,17 @@ function GameList() {
           background_image: image,
           rating,
           rating_top,
-          ratings_count
+          ratings_count,
+          released
         }) => (
           <GameCard
-            id={id}
+            key={id}
             name={name}
             image={image}
             rating={rating}
             rating_top={rating_top}
             ratings_count={ratings_count}
+            released={released}
           />
         )
       )}

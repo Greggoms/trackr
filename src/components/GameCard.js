@@ -25,7 +25,8 @@ const MoreInfo = styled.div`
   background-image: linear-gradient(
     to top,
     #333,
-    rgba(51, 51, 51, 0.8),
+    rgba(51, 51, 51, 0.9),
+    rgba(51, 51, 51, 0.9),
     rgba(51, 51, 51, 0.5)
   );
   grid-area: info;
@@ -33,12 +34,30 @@ const MoreInfo = styled.div`
   z-index: 10;
   transition: all 0.3s ease-out;
 
+  display: grid;
+  grid-template:
+    "heading heading"
+    "rating ."
+    / 1fr 1fr;
+
   h2 {
     color: #f9f9f9;
-    margin: 0;
+    margin: 0 0 10px 0;
+    grid-area: heading;
+    border-bottom: 3px solid #333;
   }
 
   h3 {
+    color: #f9f9f9;
+    grid-area: rating;
+    margin: 0;
+  }
+
+  /* span {
+    font-size: 26px;
+  } */
+  p {
+    margin: 0 0 5px 0;
     color: #f9f9f9;
   }
 `;
@@ -60,8 +79,16 @@ function GameCard(props) {
         }}
       >
         <h2>{props.name}</h2>
-        <h3>Rating - {props.rating} / 5</h3>
-        <h3>{props.ratings_count} overall ratings</h3>
+        <div>
+          <h3>
+            <span>{props.rating}</span> / 5
+          </h3>
+          <p>{props.ratings_count} ratings</p>
+        </div>
+        <div>
+          <h3>Release Date</h3>
+          <p>{props.released}</p>
+        </div>
       </MoreInfo>
     </GameContainer>
   );
