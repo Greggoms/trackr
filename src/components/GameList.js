@@ -8,7 +8,7 @@ const GamesInfo = styled.main`
   justify-items: center;
   grid-gap: 20px;
 
-  padding: 10px 50px;
+  padding: 10px;
 `;
 
 function GameList() {

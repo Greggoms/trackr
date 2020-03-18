@@ -60,9 +60,7 @@ function GameCard(props) {
         }}
       >
         <h2>{props.name}</h2>
-        <h3>
-          Rating - {props.rating} / {props.rating_top}
-        </h3>
+        <h3>Rating - {props.rating} / 5</h3>
         <h3>{props.ratings_count} overall ratings</h3>
       </MoreInfo>
     </GameContainer>
