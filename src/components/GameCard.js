@@ -37,7 +37,7 @@ const MoreInfo = styled.div`
   display: grid;
   grid-template:
     "heading heading"
-    "rating ."
+    "release rating"
     / 1fr 1fr;
 
   h2 {
@@ -49,13 +49,16 @@ const MoreInfo = styled.div`
 
   h3 {
     color: #f9f9f9;
-    grid-area: rating;
     margin: 0;
   }
+  .rating {
+    grid-area: rating;
+  }
 
-  /* span {
-    font-size: 26px;
-  } */
+  .release {
+    grid-area: release;
+  }
+
   p {
     margin: 0 0 5px 0;
     color: #f9f9f9;
@@ -64,32 +67,30 @@ const MoreInfo = styled.div`
 
 function GameCard(props) {
   const [active, setActive] = useState(false);
+
   return (
     <GameContainer
       key={props.id}
       onMouseOver={() => setActive(true)}
       onMouseOut={() => setActive(false)}
-      // onClick line for mobile users. may disable later
-      onClick={() => setActive(!active)}
     >
-      <img src={props.image} alt={props.name} />
       <MoreInfo
         style={{
           marginTop: active ? 0 : "165px"
         }}
       >
         <h2>{props.name}</h2>
-        <div>
-          <h3>
-            <span>{props.rating}</span> / 5
-          </h3>
+        <div className="rating">
+          <h3>{props.rating} / 5</h3>
           <p>{props.ratings_count} ratings</p>
         </div>
-        <div>
+        <div className="release">
           <h3>Release Date</h3>
           <p>{props.released}</p>
         </div>
       </MoreInfo>
+      <img src={props.image} alt={props.name} />
+      )}
     </GameContainer>
   );
 }
