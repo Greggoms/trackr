@@ -1,31 +1,72 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-const Container = styled.div``;
+const GameContainer = styled.div`
+  max-width: 350px;
+  height: 200px;
+  overflow: hidden;
 
-function GameCard() {
-  const [gameList, setGameList] = useState([]);
-  useEffect(() => {
-    fetch("https://rawg-video-games-database.p.rapidapi.com/games", {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-        "x-rapidapi-key": "a00e389c9bmsh5840137eb270ffep11feabjsn89b37f0109f9"
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        const game = data.results.map((result, index) => (
-          <p key={index}>{result.name}</p>
-        ));
-        setGameList(game);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
-  return <div>{gamelist}</div>;
+  display: grid;
+  grid-template:
+    "img"
+    "info"
+    / auto;
+
+  img {
+    display: block;
+    width: 350px;
+    height: 200px;
+    grid-area: img;
+    grid-row: 1 / -1;
+  }
+`;
+
+const MoreInfo = styled.div`
+  background-image: linear-gradient(
+    to top,
+    #333,
+    rgba(51, 51, 51, 0.8),
+    rgba(51, 51, 51, 0.5)
+  );
+  grid-area: info;
+  grid-row: 2;
+  z-index: 10;
+  transition: all 0.3s ease-out;
+
+  h2 {
+    color: #f9f9f9;
+    margin: 0;
+  }
+
+  h3 {
+    color: #f9f9f9;
+  }
+`;
+
+function GameCard(props) {
+  const [active, setActive] = useState(false);
+  return (
+    <GameContainer
+      key={props.id}
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+      // onClick line for mobile users. may disable later
+      onClick={() => setActive(!active)}
+    >
+      <img src={props.image} alt={props.name} />
+      <MoreInfo
+        style={{
+          marginTop: active ? 0 : "165px"
+        }}
+      >
+        <h2>{props.name}</h2>
+        <h3>
+          Rating - {props.rating} / {props.rating_top}
+        </h3>
+        <h3>{props.ratings_count} overall ratings</h3>
+      </MoreInfo>
+    </GameContainer>
+  );
 }
 
 export default GameCard;
