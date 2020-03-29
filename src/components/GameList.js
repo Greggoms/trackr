@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import GameCard from "./GameCard";
 
 const GamesInfo = styled.main`
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   justify-items: center;
@@ -12,7 +14,7 @@ const GamesInfo = styled.main`
 `;
 
 function GameList() {
-  const [gameInfo, setGameInfo] = useState([]);
+  const [gameList, setGameList] = useState([]);
 
   useEffect(() => {
     fetch("https://rawg-video-games-database.p.rapidapi.com/games", {
@@ -24,9 +26,9 @@ function GameList() {
     })
       .then(res => res.json())
       .then(data => {
-        const game = data.results;
-        setGameInfo(game);
-        console.log(game);
+        const games = data.results;
+        setGameList(games);
+        console.log(games);
       })
       .catch(err => {
         console.log(err);
@@ -35,25 +37,28 @@ function GameList() {
 
   return (
     <GamesInfo>
-      {gameInfo.map(
+      {gameList.map(
         ({
           id,
+          slug,
           name,
-          background_image: image,
+          background_image,
           rating,
           rating_top,
           ratings_count,
           released
         }) => (
-          <GameCard
-            key={id}
-            name={name}
-            image={image}
-            rating={rating}
-            rating_top={rating_top}
-            ratings_count={ratings_count}
-            released={released}
-          />
+          <Link key={id} to={`/games/${slug}`}>
+            <GameCard
+              name={name}
+              image={background_image}
+              rating={rating}
+              rating_top={rating_top}
+              ratings_count={ratings_count}
+              released={released}
+              slug={slug}
+            />
+          </Link>
         )
       )}
     </GamesInfo>

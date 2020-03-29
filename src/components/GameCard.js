@@ -1,6 +1,38 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+function GameCard(props) {
+  const [active, setActive] = useState(false);
+
+  return (
+    <GameContainer
+      key={props.id}
+      onMouseOver={() => setActive(true)}
+      onMouseOut={() => setActive(false)}
+    >
+      <MoreInfo
+        style={{
+          marginTop: active ? 0 : "165px"
+        }}
+      >
+        <h2>{props.name}</h2>
+        <div className="rating">
+          <h3>{props.rating} / 5</h3>
+          <p>{props.ratings_count} ratings</p>
+        </div>
+        <div className="release">
+          <h3>Release Date</h3>
+          <p>{props.released}</p>
+        </div>
+      </MoreInfo>
+      <img src={props.image} alt={props.name} />
+      )}
+    </GameContainer>
+  );
+}
+
+export default GameCard;
+
 const GameContainer = styled.div`
   max-width: 350px;
   height: 200px;
@@ -64,35 +96,3 @@ const MoreInfo = styled.div`
     color: #f9f9f9;
   }
 `;
-
-function GameCard(props) {
-  const [active, setActive] = useState(false);
-
-  return (
-    <GameContainer
-      key={props.id}
-      onMouseOver={() => setActive(true)}
-      onMouseOut={() => setActive(false)}
-    >
-      <MoreInfo
-        style={{
-          marginTop: active ? 0 : "165px"
-        }}
-      >
-        <h2>{props.name}</h2>
-        <div className="rating">
-          <h3>{props.rating} / 5</h3>
-          <p>{props.ratings_count} ratings</p>
-        </div>
-        <div className="release">
-          <h3>Release Date</h3>
-          <p>{props.released}</p>
-        </div>
-      </MoreInfo>
-      <img src={props.image} alt={props.name} />
-      )}
-    </GameContainer>
-  );
-}
-
-export default GameCard;
