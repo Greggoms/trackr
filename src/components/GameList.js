@@ -3,16 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import GameCard from "./GameCard";
 
-const GamesInfo = styled.main`
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  justify-items: center;
-  grid-gap: 20px;
-
-  padding: 10px;
-`;
-
 function GameList() {
   const [gameList, setGameList] = useState([]);
 
@@ -28,7 +18,6 @@ function GameList() {
       .then(data => {
         const games = data.results;
         setGameList(games);
-        console.log(games);
       })
       .catch(err => {
         console.log(err);
@@ -64,5 +53,16 @@ function GameList() {
     </GamesInfo>
   );
 }
+
+const GamesInfo = styled.main`
+  background-color: #282c34;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  justify-items: center;
+  grid-gap: 20px;
+
+  padding: 10px;
+  margin-top: 25px;
+`;
 
 export default GameList;

@@ -9,10 +9,16 @@ function GameCard(props) {
       key={props.id}
       onMouseOver={() => setActive(true)}
       onMouseOut={() => setActive(false)}
+      style={{
+        backgroundImage: `url(${props.image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+      }}
     >
       <MoreInfo
         style={{
-          marginTop: active ? 0 : "165px"
+          marginTop: active ? "100px" : "165px"
         }}
       >
         <h2>{props.name}</h2>
@@ -25,8 +31,7 @@ function GameCard(props) {
           <p>{props.released}</p>
         </div>
       </MoreInfo>
-      <img src={props.image} alt={props.name} />
-      )}
+      {/* <img src={props.image} alt={props.name} /> */}
     </GameContainer>
   );
 }
@@ -34,7 +39,8 @@ function GameCard(props) {
 export default GameCard;
 
 const GameContainer = styled.div`
-  max-width: 350px;
+  width: 300px;
+  /* max-width: 350px; */
   height: 200px;
   overflow: hidden;
 
@@ -44,13 +50,13 @@ const GameContainer = styled.div`
     "info"
     / auto;
 
-  img {
+  /* img {
     display: block;
     width: 350px;
     height: 200px;
     grid-area: img;
     grid-row: 1 / -1;
-  }
+  } */
 `;
 
 const MoreInfo = styled.div`
