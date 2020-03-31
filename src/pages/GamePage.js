@@ -99,7 +99,12 @@ function GamePage({ match }) {
         )}
       </Details>
 
-      <video src={clip.clip} type="video/mp4" controls poster />
+      <video
+        src={clip.clip}
+        type="video/mp4"
+        controls
+        poster={background_image_additional}
+      />
 
       <ExternalLinks>
         {website && (
