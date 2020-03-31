@@ -6,7 +6,9 @@ import {
   faLayerGroup,
   faThumbsUp,
   faCalendarAlt,
-  faPuzzlePiece
+  faPuzzlePiece,
+  faGlobe,
+  faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 function GamePage({ match }) {
@@ -107,19 +109,42 @@ function GamePage({ match }) {
 
       <ExternalLinks>
         {website && (
-          <p>
-            Get all the updates on <a href={website}>their website!</a>
-          </p>
+          <div>
+            <a href={website} target="_blank" rel="noopener noreferrer">
+              <h3>
+                <FontAwesomeIcon icon={faGlobe} />
+              </h3>
+              <p>
+                Stay updated from their website!{" "}
+                <FontAwesomeIcon icon={faExternalLinkAlt} />
+              </p>
+            </a>
+          </div>
         )}
 
         {reddit_url && (
-          <a href={reddit_url}>
-            <FontAwesomeIcon icon={faRedditAlien} />
-          </a>
+          <div>
+            <a href={reddit_url} target="_blank" rel="noopener noreferrer">
+              <h3>
+                <FontAwesomeIcon icon={faRedditAlien} />
+              </h3>
+              <p>
+                View the Community! <FontAwesomeIcon icon={faExternalLinkAlt} />
+              </p>
+            </a>
+          </div>
         )}
       </ExternalLinks>
 
-      <p>{description_raw}</p>
+      <p
+        style={{
+          padding: "20px 10px",
+          hyphens: "none",
+          lineHeight: "30px"
+        }}
+      >
+        {description_raw}
+      </p>
     </GamePageContainer>
   );
 }
@@ -226,6 +251,25 @@ const Details = styled.div`
 
 const ExternalLinks = styled.div`
   display: flex;
+  justify-content: space-around;
+  text-align: center;
+
+  div {
+    width: 45%;
+  }
+
+  h3 {
+    font-size: 23pt;
+    margin-bottom: 0;
+  }
+
+  p {
+    margin: 5px 0;
+  }
+
+  a {
+    color: #f9f9f9;
+  }
 `;
 
 export default GamePage;
