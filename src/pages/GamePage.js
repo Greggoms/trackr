@@ -11,9 +11,17 @@ import {
 
 function GamePage({ match }) {
   const [game, setGame] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(
+    fetchItems();
+    // eslint-disable-next-line
+  }, []);
+
+  // setLoading useSate used to make sure the game page doesnt appear until the data has been pulled into state. I didnt like the page appearing broken for a second before populating itself with content.
+  const fetchItems = async () => {
+    setLoading(true);
+    const data = await fetch(
       `https://rawg-video-games-database.p.rapidapi.com/games/${match.params.id}`,
       {
         method: "GET",
@@ -22,15 +30,11 @@ function GamePage({ match }) {
           "x-rapidapi-key": "a00e389c9bmsh5840137eb270ffep11feabjsn89b37f0109f9"
         }
       }
-    )
-      .then(res => res.json())
-      .then(gameData => setGame(gameData))
-      .catch(err => {
-        console.log(err);
-      });
-    // eslint-disable-next-line
-  }, []);
-  console.log(game);
+    );
+    const items = await data.json();
+    setGame(items);
+    setLoading(false);
+  };
 
   // Extracting (destructuring) the properties as I need from the API. game is the value stored in state (the game's properties).
   const {
@@ -47,7 +51,9 @@ function GamePage({ match }) {
     clip = {}
   } = game;
 
-  return (
+  return loading ? (
+    <Loading>Loading...</Loading>
+  ) : (
     <GamePageContainer>
       <Hero>
         <img src={background_image_additional} alt={name} />
@@ -118,15 +124,30 @@ function GamePage({ match }) {
   );
 }
 
+////////////////////////////////////////////////////
+////////// STYLES USING STYLED COMPONENTS //////////
+////////////////////////////////////////////////////
+
 const GamePageContainer = styled.main`
   padding: 0;
   background: #282c34;
   color: #f9f9f9;
 
+  display: flex;
+  flex-direction: column;
+
   img {
     display: block;
     width: 100%;
   }
+`;
+
+const Loading = styled.h2`
+  color: #f9f9f9;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const Hero = styled.div`
@@ -186,6 +207,7 @@ const Details = styled.div`
   section {
     width: 45%;
     max-width: 175px;
+    text-align: center;
 
     display: flex;
     flex-direction: column;

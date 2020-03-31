@@ -5,27 +5,34 @@ import GameCard from "./GameCard";
 
 function GameList() {
   const [gameList, setGameList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch("https://rawg-video-games-database.p.rapidapi.com/games", {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-        "x-rapidapi-key": "a00e389c9bmsh5840137eb270ffep11feabjsn89b37f0109f9"
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        const games = data.results;
-        setGameList(games);
-        console.log(games);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    fetchItems();
+    // eslint-disable-next-line
   }, []);
 
-  return (
+  // setLoading useSate used to make sure the game page doesnt appear until the data has been pulled into state. I didnt like the page appearing broken for a second before populating itself with content.
+  const fetchItems = async () => {
+    setLoading(true);
+    const data = await fetch(
+      "https://rawg-video-games-database.p.rapidapi.com/games",
+      {
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
+          "x-rapidapi-key": "a00e389c9bmsh5840137eb270ffep11feabjsn89b37f0109f9"
+        }
+      }
+    );
+    const items = await data.json();
+    setGameList(items.results);
+    setLoading(false);
+  };
+
+  return loading ? (
+    <Loading>Loading...</Loading>
+  ) : (
     <GamesInfo>
       {gameList.map(
         ({
@@ -64,6 +71,14 @@ const GamesInfo = styled.main`
 
   padding: 10px;
   margin-top: 25px;
+`;
+
+const Loading = styled.h2`
+  color: #f9f9f9;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export default GameList;
