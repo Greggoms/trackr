@@ -13,7 +13,7 @@ import MobileNav from "./components/MobileNav";
 import "./App.css";
 
 const AppWrapper = styled.div`
-  text-align: center;
+  text-align: inherit;
 `;
 
 function App(props) {

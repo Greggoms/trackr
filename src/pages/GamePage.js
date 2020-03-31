@@ -48,21 +48,27 @@ function GamePage({ match }) {
 
   return (
     <GamePageContainer>
-      <img src={background_image_additional} alt={name} />
-      <h3 style={{ color: dominant_color }}>{name}</h3>
-      <p>{esrb_rating.name}</p>
+      <Hero>
+        <img src={background_image_additional} alt={name} />
+        <h3 style={{ color: dominant_color }}>{name}</h3>
+      </Hero>
+      {esrb_rating && <p>{esrb_rating.name}</p>}
       <p>Released: {released}</p>
-      <p>
-        Get all the updates on <a href={website}>their website!</a>
-      </p>
+      {website && (
+        <p>
+          Get all the updates on <a href={website}>their website!</a>
+        </p>
+      )}
       <p>
         {game_series_count > 1 && `${game_series_count} games in this series!`}
       </p>
       <p>{metacritic} - Metacritic</p>
 
-      <a href={reddit_url}>
-        <FontAwesomeIcon icon={faRedditAlien} />
-      </a>
+      {reddit_url && (
+        <a href={reddit_url}>
+          <FontAwesomeIcon icon={faRedditAlien} />
+        </a>
+      )}
 
       <video
         src={clip.clip}
@@ -84,6 +90,53 @@ const GamePageContainer = styled.main`
   img {
     display: block;
     width: 100%;
+  }
+`;
+
+const Hero = styled.div`
+  display: grid;
+  grid:
+    [row1-start] "img" min-content [row1-end]
+    [row2-start] "title" min-content [row2-end]
+    / auto;
+
+  overflow: hidden;
+
+  img {
+    grid-area: img;
+    grid-row: 1 / -1;
+  }
+
+  h3 {
+    font-size: 23pt;
+    margin-bottom: 0;
+    text-align: center;
+    width: 100%;
+
+    grid-area: title;
+    grid-row: 1 / -1;
+    justify-self: center;
+    align-self: end;
+    animation: titleAppear 2s ease-out forwards,
+      titleBackground 2s 2s ease-out forwards;
+  }
+
+  @keyframes titleAppear {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes titleBackground {
+    0% {
+      background: rgba(179, 130, 21, 0);
+    }
+    100% {
+      background: rgba(179, 130, 21, 0.4);
+    }
   }
 `;
 

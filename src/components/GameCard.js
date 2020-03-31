@@ -43,6 +43,7 @@ const GameContainer = styled.div`
   /* max-width: 350px; */
   height: 200px;
   overflow: hidden;
+  text-align: center;
 
   display: grid;
   grid-template:
