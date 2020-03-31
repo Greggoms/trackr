@@ -18,6 +18,7 @@ function GameList() {
       .then(data => {
         const games = data.results;
         setGameList(games);
+        console.log(games);
       })
       .catch(err => {
         console.log(err);

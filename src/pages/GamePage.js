@@ -2,6 +2,16 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedditAlien } from "@fortawesome/free-brands-svg-icons";
+import {
+  faBaby,
+  faMale,
+  faGlassCheers,
+  faQuestion,
+  faLayerGroup,
+  faThumbsUp,
+  faCalendarAlt,
+  faPuzzlePiece
+} from "@fortawesome/free-solid-svg-icons";
 
 function GamePage({ match }) {
   const [game, setGame] = useState({});
@@ -18,17 +28,12 @@ function GamePage({ match }) {
       }
     )
       .then(res => res.json())
-      .then(gameData => {
-        setGame(gameData);
-
-        // console.log(clips);
-      })
+      .then(gameData => setGame(gameData))
       .catch(err => {
         console.log(err);
       });
     // eslint-disable-next-line
   }, []);
-
   console.log(game);
 
   // Extracting (destructuring) the properties as I need from the API. game is the value stored in state (the game's properties).
@@ -52,23 +57,43 @@ function GamePage({ match }) {
         <img src={background_image_additional} alt={name} />
         <h3 style={{ color: dominant_color }}>{name}</h3>
       </Hero>
-      {esrb_rating && <p>{esrb_rating.name}</p>}
-      <p>Released: {released}</p>
-      {website && (
-        <p>
-          Get all the updates on <a href={website}>their website!</a>
-        </p>
-      )}
-      <p>
-        {game_series_count > 1 && `${game_series_count} games in this series!`}
-      </p>
-      <p>{metacritic} - Metacritic</p>
 
-      {reddit_url && (
-        <a href={reddit_url}>
-          <FontAwesomeIcon icon={faRedditAlien} />
-        </a>
-      )}
+      <Details>
+        <section>
+          <h3>
+            <FontAwesomeIcon icon={faThumbsUp} />
+          </h3>
+          <p>{`${metacritic}% ${
+            metacritic >= 90 ? "(Mostly Positive)" : "(Positive)"
+          }`}</p>
+        </section>
+        <section>
+          <h3>
+            <FontAwesomeIcon icon={faCalendarAlt} />
+          </h3>{" "}
+          <p>{released}</p>
+        </section>
+
+        {game_series_count > 1 && (
+          <section>
+            <h3>
+              <FontAwesomeIcon icon={faLayerGroup} />
+            </h3>
+            <p>{game_series_count} other titles!</p>
+          </section>
+        )}
+
+        {esrb_rating && (
+          <section>
+            <div>
+              <h3>
+                <FontAwesomeIcon icon={faPuzzlePiece} />
+              </h3>
+              <p>{esrb_rating.name}</p>
+            </div>
+          </section>
+        )}
+      </Details>
 
       <video
         src={clip.clip}
@@ -77,6 +102,21 @@ function GamePage({ match }) {
         height="240"
         controls
       />
+
+      <ExternalLinks>
+        {website && (
+          <p>
+            Get all the updates on <a href={website}>their website!</a>
+          </p>
+        )}
+
+        {reddit_url && (
+          <a href={reddit_url}>
+            <FontAwesomeIcon icon={faRedditAlien} />
+          </a>
+        )}
+      </ExternalLinks>
+
       <p>{description_raw}</p>
     </GamePageContainer>
   );
@@ -138,6 +178,36 @@ const Hero = styled.div`
       background: rgba(179, 130, 21, 0.4);
     }
   }
+`;
+
+const Details = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+
+  section {
+    width: 45%;
+    max-width: 175px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h3 {
+      font-size: 30pt;
+      margin-bottom: 12px;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+`;
+
+const ExternalLinks = styled.div`
+  display: flex;
 `;
 
 export default GamePage;
