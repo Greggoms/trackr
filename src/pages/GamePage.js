@@ -99,13 +99,7 @@ function GamePage({ match }) {
         )}
       </Details>
 
-      <video
-        src={clip.clip}
-        type="video/mp4"
-        width="320"
-        height="240"
-        controls
-      />
+      <video src={clip.clip} type="video/mp4" controls />
 
       <ExternalLinks>
         {website && (
@@ -164,6 +158,12 @@ const GamePageContainer = styled.main`
   img {
     display: block;
     width: 100%;
+  }
+
+  video {
+    margin: 30px auto;
+    width: 100%;
+    max-width: 640px;
   }
 `;
 
