@@ -18,11 +18,15 @@ const Header = props => {
 
 const HeaderContainer = styled.header`
   background: #313640;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
 
   h1 {
     color: #f9f9f9;
     text-align: left;
-    margin: 0 0 0 30px;
+    margin: 0;
+    flex-grow: 1;
   }
 
   a {
