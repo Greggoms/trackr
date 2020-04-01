@@ -41,6 +41,7 @@ function GamePage({ match }) {
   // Extracting (destructuring) the properties as I need from the API. game is the value stored in state (the game's properties).
   const {
     name,
+    background_image,
     background_image_additional,
     description_raw,
     dominant_color,
@@ -58,7 +59,7 @@ function GamePage({ match }) {
   ) : (
     <GamePageContainer>
       <Hero>
-        <img src={background_image_additional} alt={name} />
+        <img src={background_image} alt={name} />
         <h3 style={{ color: dominant_color }}>{name}</h3>
       </Hero>
 
@@ -166,7 +167,7 @@ const GamePageContainer = styled.main`
   }
 
   video {
-    margin: 30px auto;
+    margin: 30px auto 0;
     width: 100%;
     max-width: 640px;
   }
