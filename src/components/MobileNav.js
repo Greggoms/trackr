@@ -73,6 +73,10 @@ const MobileNav = () => {
   );
 };
 
+////////////////////////////////////////////////////
+////////// STYLES USING STYLED COMPONENTS //////////
+////////////////////////////////////////////////////
+
 const barPresets = {
   height: "3px",
   background: "#333",
@@ -80,14 +84,6 @@ const barPresets = {
 
   transition: "all .2s ease"
 };
-
-// Span.defaultProps = {
-//   bar: {
-//     top: "5",
-//     mid: "10",
-//     bottom: "5"
-//   }
-// };
 
 const TopBar = styled.span`
   ${barPresets}

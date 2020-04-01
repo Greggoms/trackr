@@ -47,6 +47,10 @@ const Home = () => {
   );
 };
 
+////////////////////////////////////////////////////
+////////// STYLES USING STYLED COMPONENTS //////////
+////////////////////////////////////////////////////
+
 const HomePageContainer = styled.main`
   display: flex;
   flex-direction: column;
@@ -89,6 +93,7 @@ const Features = styled.article`
   width: 100%;
   max-width: 900px;
   align-self: center;
+  margin-top: 30px;
 `;
 
 const Feature = styled.section`

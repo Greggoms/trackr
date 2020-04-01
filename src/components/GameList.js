@@ -62,6 +62,10 @@ function GameList() {
   );
 }
 
+////////////////////////////////////////////////////
+////////// STYLES USING STYLED COMPONENTS //////////
+////////////////////////////////////////////////////
+
 const GamesInfo = styled.main`
   background-color: #282c34;
   display: grid;
@@ -71,6 +75,10 @@ const GamesInfo = styled.main`
 
   padding: 10px;
   margin-top: 25px;
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 const Loading = styled.h2`

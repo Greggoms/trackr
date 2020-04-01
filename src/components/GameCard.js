@@ -36,11 +36,12 @@ function GameCard(props) {
   );
 }
 
-export default GameCard;
+////////////////////////////////////////////////////
+////////// STYLES USING STYLED COMPONENTS //////////
+////////////////////////////////////////////////////
 
 const GameContainer = styled.div`
   width: 300px;
-  /* max-width: 350px; */
   height: 200px;
   overflow: hidden;
   text-align: center;
@@ -50,14 +51,6 @@ const GameContainer = styled.div`
     "img"
     "info"
     / auto;
-
-  /* img {
-    display: block;
-    width: 350px;
-    height: 200px;
-    grid-area: img;
-    grid-row: 1 / -1;
-  } */
 `;
 
 const MoreInfo = styled.div`
@@ -103,3 +96,5 @@ const MoreInfo = styled.div`
     color: #f9f9f9;
   }
 `;
+
+export default GameCard;
