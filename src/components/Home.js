@@ -24,7 +24,8 @@ const Home = () => {
           <p>
             Your experience will be seamless. React focuses on client side
             rendering. This means that your internet does a LOT less work to
-            load your website.
+            load your website. Try switching between the Home and About pages as
+            fast as you can!
           </p>
         </Feature>
         <Feature>

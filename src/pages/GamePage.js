@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+// withSizes adds responsiveness. Apparently almighty server-side rendering technology is unable to acces the width of the screen, so this guy made a sweet helper for it. https://github.com/renatorib/react-sizes
+import withSizes from "react-sizes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedditAlien } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -11,7 +13,7 @@ import {
   faExternalLinkAlt
 } from "@fortawesome/free-solid-svg-icons";
 
-function GamePage({ match }) {
+function GamePage({ match }, props) {
   const [game, setGame] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -57,7 +59,13 @@ function GamePage({ match }) {
   return loading ? (
     <Loading>Loading...</Loading>
   ) : (
-    <GamePageContainer>
+    <GamePageContainer
+      style={{
+        backgroundImage: `url(${background_image})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat"
+      }}
+    >
       <Hero>
         <img src={background_image} alt={name} />
         <h3 style={{ color: dominant_color }}>{name}</h3>
@@ -115,7 +123,7 @@ function GamePage({ match }) {
                 <FontAwesomeIcon icon={faGlobe} />
               </h3>
               <p>
-                Stay updated from their website!{" "}
+                Stay updated on their website!{" "}
                 <FontAwesomeIcon icon={faExternalLinkAlt} />
               </p>
             </a>
@@ -136,15 +144,14 @@ function GamePage({ match }) {
         )}
       </ExternalLinks>
 
-      <p
+      <StoryLine
         style={{
-          padding: "20px 10px",
           hyphens: "none",
           lineHeight: "30px"
         }}
       >
         {description_raw}
-      </p>
+      </StoryLine>
     </GamePageContainer>
   );
 }
@@ -153,23 +160,57 @@ function GamePage({ match }) {
 ////////// STYLES USING STYLED COMPONENTS //////////
 ////////////////////////////////////////////////////
 
+// Necessary for withSizes responsiveness to work. Changing the device width(s) will change the breakpoint in pixels.
+const mapSizesToProps = ({ width }) => ({
+  isTablet: width < 650
+});
+
 const GamePageContainer = styled.main`
   padding: 0;
-  background: #282c34;
   color: #f9f9f9;
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid:
+    "hero" 60vw
+    "details" min-content
+    "video" min-content
+    "external" min-content
+    "storyline" min-content
+    / 1fr;
+
+  @media only screen and (min-width: 650px) {
+    grid:
+      "hero" 27vw
+      "details" min-content
+      "video" min-content
+      "external" min-content
+      "storyline" min-content
+      / 1fr;
+  }
+  @media only screen and (min-width: 1200px) {
+    grid:
+      "hero hero" 8vw
+      "details video" min-content
+      "details external" min-content
+      ". storyline" min-content
+      / 500px 1fr;
+    background-size: cover;
+  }
 
   img {
     display: block;
     width: 100%;
   }
-
   video {
+    grid-area: video;
     margin: 30px auto 0;
     width: 100%;
     max-width: 640px;
+
+    @media only screen and (min-width: 1200px) {
+      margin: 0;
+      align-self: center;
+    }
   }
 `;
 
@@ -182,10 +223,11 @@ const Loading = styled.h2`
 `;
 
 const Hero = styled.div`
+  grid-area: hero;
   display: grid;
   grid:
-    [row1-start] "img" min-content [row1-end]
-    [row2-start] "title" min-content [row2-end]
+    "img" min-content
+    "title" min-content
     / auto;
 
   overflow: hidden;
@@ -205,13 +247,32 @@ const Hero = styled.div`
     grid-row: 1 / -1;
     justify-self: center;
     align-self: end;
-    animation: titleAppear 2s ease-out forwards,
+    animation: titleAppearMobile 2s ease-out forwards,
       titleBackground 2s 2s ease-out forwards;
+    @media only screen and (min-width: 650px) {
+      font-size: 48pt;
+      margin: 0 20px;
+      grid-row: 1;
+      animation: titleAppearTablet 2s ease-out forwards,
+        titleBackground 2s 2s ease-out forwards;
+      margin-top: 0;
+      height: 100%;
+      text-align: left;
+    }
   }
 
-  @keyframes titleAppear {
+  @keyframes titleAppearMobile {
     0% {
       transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes titleAppearTablet {
+    0% {
+      transform: translateY(-50px);
     }
     100% {
       transform: translateY(0);
@@ -229,44 +290,78 @@ const Hero = styled.div`
 `;
 
 const Details = styled.div`
+  grid-area: details;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
   text-align: left;
 
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+
   section {
     width: 45%;
-    max-width: 175px;
+    max-width: 120px;
+    height: 120px;
     text-align: center;
 
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 10px;
 
+    transition: all 2s ease-out;
+
+    @media only screen and (min-width: 1200px) {
+      margin-bottom: 15px;
+    }
     h3 {
       font-size: 30pt;
-      margin-bottom: 12px;
+      margin: 0;
     }
 
     p {
       margin: 0;
     }
+
+    @media only screen and (min-width: 650px) {
+      background: rgba(51, 51, 51, 0.9);
+    }
+  }
+  @media only screen and (min-width: 650px) {
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  @media only screen and (min-width: 1200px) {
+    display: flex;
+    flex-direction: column;
   }
 `;
 
 const ExternalLinks = styled.div`
+  grid-area: external;
   display: flex;
   justify-content: space-around;
   text-align: center;
 
+  @media only screen and (min-width: 1200px) {
+    text-align: left;
+    flex-direction: column;
+  }
+
   div {
     width: 45%;
+    @media only screen and (min-width: 1200px) {
+      margin: 0 0 10px 0;
+    }
   }
 
   h3 {
     font-size: 23pt;
-    margin-bottom: 0;
+    margin: 0;
   }
 
   p {
@@ -278,4 +373,19 @@ const ExternalLinks = styled.div`
   }
 `;
 
-export default GamePage;
+const StoryLine = styled.p`
+  grid-area: storyline;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 15px;
+  @media only screen and (min-width: 480px) {
+    padding: 50px;
+  }
+  @media only screen and (min-width: 1200px) {
+    padding: 0;
+    margin: 30px 0 0 0;
+  }
+`;
+
+// Weird export necessary for withSizes to work.
+export default withSizes(mapSizesToProps)(GamePage);
