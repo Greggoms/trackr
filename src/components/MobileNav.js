@@ -39,8 +39,16 @@ const MobileNav = () => {
         />
       </Hamburger>
       <MobileNavContainer
-        style={activeNav ? { left: "50%" } : { left: "100vw" }}
+        style={activeNav ? { left: "0%" } : { left: "100vw" }}
       >
+        <Overlay
+          onClick={() => setActiveNav(false)}
+          style={
+            activeNav
+              ? { opacity: 1, background: "rgba(255, 255, 255, 0.2)" }
+              : { opacity: 0, background: "rgba(255, 255, 255, 0)" }
+          }
+        />
         {activeNav && (
           <MobileNavContent>
             <ul>
@@ -79,6 +87,17 @@ const MobileNav = () => {
 ////////////////////////////////////////////////////
 ////////// STYLES USING STYLED COMPONENTS //////////
 ////////////////////////////////////////////////////
+
+const Overlay = styled.div`
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  transition: all 2s 0.5s ease;
+`;
 
 const barPresets = {
   height: "3px",
@@ -129,6 +148,18 @@ const MobileNavContainer = styled.nav`
   right: 0;
   bottom: 0;
   z-index: 100;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  transition: all 0.2s ease-out;
+`;
+
+const MobileNavContent = styled.nav`
+  grid-column: 2;
+  z-index: 1;
+  padding-top: 100px;
+  text-align: right;
   background-image: linear-gradient(
     to left,
     rgba(40, 44, 52, 1),
@@ -137,13 +168,6 @@ const MobileNavContainer = styled.nav`
     rgba(40, 44, 52, 0.9),
     rgba(40, 44, 52, 0)
   );
-
-  transition: all 0.2s ease-out;
-`;
-
-const MobileNavContent = styled.nav`
-  margin-top: 100px;
-  text-align: right;
 
   ul {
     list-style-type: none;
