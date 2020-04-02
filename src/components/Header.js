@@ -25,6 +25,7 @@ const HeaderContainer = styled.header`
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
+  padding-bottom: 15px;
 
   h1 {
     color: #f9f9f9;

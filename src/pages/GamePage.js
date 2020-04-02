@@ -9,8 +9,7 @@ import {
   faThumbsUp,
   faCalendarAlt,
   faPuzzlePiece,
-  faGlobe,
-  faExternalLinkAlt
+  faGlobe
 } from "@fortawesome/free-solid-svg-icons";
 
 function GamePage({ match }, props) {
@@ -117,40 +116,28 @@ function GamePage({ match }, props) {
 
       <ExternalLinks>
         {website && (
-          <div>
-            <a href={website} target="_blank" rel="noopener noreferrer">
-              <h3>
-                <FontAwesomeIcon icon={faGlobe} />
-              </h3>
-              <p>
-                Stay updated on their website!{" "}
-                <FontAwesomeIcon icon={faExternalLinkAlt} />
-              </p>
-            </a>
-          </div>
+          <a href={website}>
+            <h3>
+              <FontAwesomeIcon icon={faGlobe} />
+            </h3>
+            <p>Stay updated on their website!</p>
+          </a>
         )}
 
         {reddit_url && (
-          <div>
-            <a href={reddit_url} target="_blank" rel="noopener noreferrer">
-              <h3>
-                <FontAwesomeIcon icon={faRedditAlien} />
-              </h3>
-              <p>
-                View the Community! <FontAwesomeIcon icon={faExternalLinkAlt} />
-              </p>
-            </a>
-          </div>
+          <a href={reddit_url}>
+            <h3>
+              <FontAwesomeIcon icon={faRedditAlien} />
+            </h3>
+            <p>View the Community!</p>
+          </a>
         )}
       </ExternalLinks>
 
-      <StoryLine
-        style={{
-          hyphens: "none",
-          lineHeight: "30px"
-        }}
-      >
-        {description_raw}
+      <StoryLine>
+        <h3>Storyline</h3>
+        <hr />
+        <p>{description_raw}</p>
       </StoryLine>
     </GamePageContainer>
   );
@@ -171,7 +158,7 @@ const GamePageContainer = styled.main`
 
   display: grid;
   grid:
-    "hero" 60vw
+    "hero" 65vw
     "details" min-content
     "video" min-content
     "external" min-content
@@ -344,19 +331,15 @@ const Details = styled.div`
 const ExternalLinks = styled.div`
   grid-area: external;
   display: flex;
-  justify-content: space-around;
   text-align: center;
+  max-width: 600px;
+  margin: 25px auto 0 auto;
 
   @media only screen and (min-width: 1200px) {
+    margin: 0;
     text-align: left;
     flex-direction: column;
-  }
-
-  div {
-    width: 45%;
-    @media only screen and (min-width: 1200px) {
-      margin: 0 0 10px 0;
-    }
+    justify-self: flex-start;
   }
 
   h3 {
@@ -370,20 +353,42 @@ const ExternalLinks = styled.div`
 
   a {
     color: #f9f9f9;
+    padding: 15px;
+    transition: all 1s ease;
+
+    &:hover {
+      color: #59c1d9;
+      border-radius: 10px;
+    }
+
+    @media only screen and (min-width: 1200px) {
+      background: rgba(51, 51, 51, 0.9);
+      margin-bottom: 10px;
+    }
   }
 `;
 
-const StoryLine = styled.p`
+const StoryLine = styled.section`
   grid-area: storyline;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 35px auto 0 auto;
   padding: 15px;
   @media only screen and (min-width: 480px) {
-    padding: 50px;
+    padding: 25px;
   }
   @media only screen and (min-width: 1200px) {
-    padding: 0;
-    margin: 30px 0 0 0;
+    margin: 30px 60px 60px 0;
+    background: rgba(51, 51, 51, 0.5);
+    border-radius: 20px 10px 0 0;
+    font-size: 18pt;
+  }
+
+  h3 {
+  }
+
+  p {
+    hyphens: none;
+    line-height: 40px;
   }
 `;
 
