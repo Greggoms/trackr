@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+// withSizes described in App.js
 import withSizes from "react-sizes";
 
 import DesktopNav from "./DesktopNav";
@@ -39,8 +40,10 @@ const HeaderContainer = styled.header`
   }
 `;
 
+// part of withSizes
 const mapSizesToProps = ({ width }) => ({
   isTablet: width >= 480
 });
 
+// part of withSizes
 export default withSizes(mapSizesToProps)(Header);

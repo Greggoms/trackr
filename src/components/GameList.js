@@ -4,17 +4,17 @@ import styled from "styled-components";
 import GameCard from "./GameCard";
 
 function GameList() {
+  // I need these two useState calls for my http request.
+  // gameList will hold an array of game objects holding the data I need to render.
+  // loading will display a message/loader while the data is being fetched.
   const [gameList, setGameList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchItems();
-    // eslint-disable-next-line
-  }, []);
-
-  // setLoading useSate used to make sure the game page doesnt appear until the data has been pulled into state. I didnt like the page appearing broken for a second before populating itself with content.
+  // setLoading useState used to make sure the game page doesnt appear until the data has been pulled into state. I didnt like the page appearing broken for a second before populating itself with content.
   const fetchItems = async () => {
+    // Display loader
     setLoading(true);
+    // Get data
     const data = await fetch(
       "https://rawg-video-games-database.p.rapidapi.com/games",
       {
@@ -25,14 +25,23 @@ function GameList() {
         }
       }
     );
+    // Make data usable
     const items = await data.json();
+    // Set data to gameList state
     setGameList(items.results);
+    // Remove the loader from screen and display the content.
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchItems();
+    // eslint-disable-next-line
+  }, []);
 
   return loading ? (
     <Loading>Loading...</Loading>
   ) : (
+    // I need to map through the gameList array from state to render a list of game objects. I'm destructuring the values available to me to pass the data as props in GameCard
     <GamesInfo>
       {gameList.map(
         ({

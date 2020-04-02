@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-// withSizes adds responsiveness. Apparently almighty server-side rendering technology is unable to acces the width of the screen, so this guy made a sweet helper for it. https://github.com/renatorib/react-sizes
+// withSizes described in App.js
 import withSizes from "react-sizes";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRedditAlien } from "@fortawesome/free-brands-svg-icons";
-import {
-  faLayerGroup,
-  faThumbsUp,
-  faCalendarAlt,
-  faPuzzlePiece,
-  faGlobe
-} from "@fortawesome/free-solid-svg-icons";
 
-function GamePage({ match }, props) {
+import Hero from "../components/Hero";
+import Details from "../components/Details";
+import ExternalLinks from "../components/ExternalLinks";
+import Storyline from "../components/Storyline";
+
+// match is a vital piece of the puzzle. Whenever I use react-router-doms <Link> (GameList.js in this case [line 57]), I get a special prop called match. Match allows me to keep the urls consistent between api calls. This is important because I have to make a call to the api when GameList.js loads, and another time when a game is selected causing GamePage.js to load.
+function GamePage({ match }) {
+  // Note that useState uses empty object as default here. That's because this api call returns a single game object with key:value pairs instead of an array of objects.
   const [game, setGame] = useState({});
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchItems();
-    // eslint-disable-next-line
-  }, []);
-
-  // setLoading useSate used to make sure the game page doesnt appear until the data has been pulled into state. I didnt like the page appearing broken for a second before populating itself with content.
+  // setLoading useState used to make sure the game page doesnt appear until the data has been pulled into state. I didnt like the page appearing broken for a second before populating itself with content.
+  // Here we see match in action. one of the values I can access with match is params. params holds valuable info, such as an id. This id holds the games slug used in the url (ex. "the-witcher-3-wild-hunt").
   const fetchItems = async () => {
+    // Show loader
     setLoading(true);
+    // Gather data and store it in a var called data
     const data = await fetch(
       `https://rawg-video-games-database.p.rapidapi.com/games/${match.params.id}`,
       {
@@ -34,12 +30,21 @@ function GamePage({ match }, props) {
         }
       }
     );
+    // Make data readable
     const items = await data.json();
+    // Store data to stata
     setGame(items);
+    // Hide loader
     setLoading(false);
   };
 
+  useEffect(() => {
+    fetchItems();
+    // eslint-disable-next-line
+  }, []);
+
   // Extracting (destructuring) the properties as I need from the API. game is the value stored in state (the game's properties).
+  // esrb_rating and clip assigned to empty object because the values I need are stored inside those objects. Not actually sure why this works, but I won't complain.
   const {
     name,
     background_image,
@@ -65,80 +70,25 @@ function GamePage({ match }, props) {
         backgroundRepeat: "no-repeat"
       }}
     >
-      <Hero>
-        <img src={background_image} alt={name} />
-        <h3 style={{ color: dominant_color }}>{name}</h3>
-      </Hero>
-
-      <Details>
-        <section>
-          <h3>
-            <FontAwesomeIcon icon={faThumbsUp} />
-          </h3>
-          <p>{`${metacritic}% ${
-            metacritic >= 90 ? "(Mostly Positive)" : "(Positive)"
-          }`}</p>
-        </section>
-        <section>
-          <h3>
-            <FontAwesomeIcon icon={faCalendarAlt} />
-          </h3>{" "}
-          <p>{released}</p>
-        </section>
-
-        {game_series_count > 1 && (
-          <section>
-            <h3>
-              <FontAwesomeIcon icon={faLayerGroup} />
-            </h3>
-            <p>{game_series_count} other titles!</p>
-          </section>
-        )}
-
-        {esrb_rating && (
-          <section>
-            <div>
-              <h3>
-                <FontAwesomeIcon icon={faPuzzlePiece} />
-              </h3>
-              <p>{esrb_rating.name}</p>
-            </div>
-          </section>
-        )}
-      </Details>
-
+      <Hero
+        background_image={background_image}
+        dominant_color={dominant_color}
+        name={name}
+      />
+      <Details
+        metacritic={metacritic}
+        released={released}
+        game_series_count={game_series_count}
+        esrb_rating={esrb_rating}
+      />
       <video
         src={clip.clip}
         type="video/mp4"
         controls
         poster={background_image_additional}
       />
-
-      <ExternalLinks>
-        {website && (
-          <a href={website}>
-            <h3>
-              <FontAwesomeIcon icon={faGlobe} />
-            </h3>
-            <p>Stay updated on their website!</p>
-          </a>
-        )}
-
-        {reddit_url && (
-          <a href={reddit_url}>
-            <h3>
-              <FontAwesomeIcon icon={faRedditAlien} />
-            </h3>
-            <p>View the Community!</p>
-          </a>
-        )}
-      </ExternalLinks>
-
-      <StoryLine>
-        <h3>Storyline</h3>
-        <hr />
-        <p>{description_raw}</p>
-      </StoryLine>
+      <ExternalLinks website={website} reddit_url={reddit_url} />
+      <Storyline description_raw={description_raw} />
     </GamePageContainer>
   );
 }
@@ -147,7 +97,7 @@ function GamePage({ match }, props) {
 ////////// STYLES USING STYLED COMPONENTS //////////
 ////////////////////////////////////////////////////
 
-// Necessary for withSizes responsiveness to work. Changing the device width(s) will change the breakpoint in pixels.
+// part of withSizes
 const mapSizesToProps = ({ width }) => ({
   isTablet: width < 650
 });
@@ -209,188 +159,5 @@ const Loading = styled.h2`
   transform: translate(-50%, -50%);
 `;
 
-const Hero = styled.div`
-  grid-area: hero;
-  display: grid;
-  grid:
-    "img" min-content
-    "title" min-content
-    / auto;
-
-  overflow: hidden;
-
-  img {
-    grid-area: img;
-    grid-row: 1 / -1;
-  }
-
-  h3 {
-    font-size: 23pt;
-    margin-bottom: 0;
-    text-align: center;
-    width: 100%;
-
-    grid-area: title;
-    grid-row: 1 / -1;
-    justify-self: center;
-    align-self: end;
-    animation: titleAppearMobile 2s ease-out forwards,
-      titleBackground 2s 2s ease-out forwards;
-    @media only screen and (min-width: 650px) {
-      font-size: 48pt;
-      margin: 0 20px;
-      grid-row: 1;
-      animation: titleAppearTablet 2s ease-out forwards,
-        titleBackground 2s 2s ease-out forwards;
-      margin-top: 0;
-      height: 100%;
-      text-align: left;
-    }
-  }
-
-  @keyframes titleAppearMobile {
-    0% {
-      transform: translateY(100%);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes titleAppearTablet {
-    0% {
-      transform: translateY(-50px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes titleBackground {
-    0% {
-      background: rgba(179, 130, 21, 0);
-    }
-    100% {
-      background: rgba(179, 130, 21, 0.4);
-    }
-  }
-`;
-
-const Details = styled.div`
-  grid-area: details;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: left;
-
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-
-  section {
-    width: 45%;
-    max-width: 120px;
-    height: 120px;
-    text-align: center;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 50%;
-    padding: 10px;
-
-    transition: all 2s ease-out;
-
-    @media only screen and (min-width: 1200px) {
-      margin-bottom: 15px;
-    }
-    h3 {
-      font-size: 30pt;
-      margin: 0;
-    }
-
-    p {
-      margin: 0;
-    }
-
-    @media only screen and (min-width: 650px) {
-      background: rgba(51, 51, 51, 0.9);
-    }
-  }
-  @media only screen and (min-width: 650px) {
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  @media only screen and (min-width: 1200px) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-const ExternalLinks = styled.div`
-  grid-area: external;
-  display: flex;
-  text-align: center;
-  max-width: 600px;
-  margin: 25px auto 0 auto;
-
-  @media only screen and (min-width: 1200px) {
-    margin: 0;
-    text-align: left;
-    flex-direction: column;
-    justify-self: flex-start;
-  }
-
-  h3 {
-    font-size: 23pt;
-    margin: 0;
-  }
-
-  p {
-    margin: 5px 0;
-  }
-
-  a {
-    color: #f9f9f9;
-    padding: 15px;
-    transition: all 1s ease;
-
-    &:hover {
-      color: #59c1d9;
-      border-radius: 10px;
-    }
-
-    @media only screen and (min-width: 1200px) {
-      background: rgba(51, 51, 51, 0.9);
-      margin-bottom: 10px;
-    }
-  }
-`;
-
-const StoryLine = styled.section`
-  grid-area: storyline;
-  max-width: 800px;
-  margin: 35px auto 0 auto;
-  padding: 15px;
-  @media only screen and (min-width: 480px) {
-    padding: 25px;
-  }
-  @media only screen and (min-width: 1200px) {
-    margin: 30px 60px 60px 0;
-    background: rgba(51, 51, 51, 0.5);
-    border-radius: 20px 10px 0 0;
-    font-size: 18pt;
-  }
-
-  h3 {
-  }
-
-  p {
-    hyphens: none;
-    line-height: 40px;
-  }
-`;
-
-// Weird export necessary for withSizes to work.
+// part of withSizes
 export default withSizes(mapSizesToProps)(GamePage);

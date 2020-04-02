@@ -4,11 +4,11 @@ import styled from "styled-components";
 // withSizes adds responsiveness. Apparently almighty server-side rendering technology is unable to acces the width of the screen, so this guy made a sweet helper for it. https://github.com/renatorib/react-sizes
 import withSizes from "react-sizes";
 
-import Header from "./components/Header";
-import Home from "./components/Home";
-import About from "./components/About";
-import GameList from "./components/GameList";
+import Home from "./pages/Home";
 import GamePage from "./pages/GamePage";
+import About from "./pages/About";
+import Header from "./components/Header";
+import GameList from "./components/GameList";
 import MobileNav from "./components/MobileNav";
 import "./App.css";
 
@@ -21,6 +21,7 @@ function App(props) {
     <Router>
       <AppWrapper>
         <Header />
+        {/* I can use withSizes to conditionally render a component based on device width. I have tried using it to conditionally style to no avail. Sticking with regular ol media queries for now */}
         {props.isMobile && <MobileNav />}
         <Switch>
           <Route path="/" exact component={Home} />

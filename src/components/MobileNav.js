@@ -9,9 +9,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const MobileNav = () => {
+  // useState activeNav used to handle hamburger navigation toggle.
   const [activeNav, setActiveNav] = useState(false);
   return (
+    // Using a fragment here because this nav will be absolutely positioned and shouldn't interfere with the main grid layout.
     <>
+      {/* onClick to toggle true/false */}
       <Hamburger onClick={() => setActiveNav(!activeNav)}>
         <TopBar
           style={

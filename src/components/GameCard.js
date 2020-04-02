@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 function GameCard(props) {
+  // useState for hover animation event
   const [active, setActive] = useState(false);
 
   return (
@@ -9,6 +10,7 @@ function GameCard(props) {
       key={props.id}
       onMouseOver={() => setActive(true)}
       onMouseOut={() => setActive(false)}
+      // I have the image set as a background here instead of in the styled component below for a reason. Put simply, it needs to be here to load "another copy" of the mobile image. My dynamic values aren't accessible inside a styled component. Out of scope I suppose. Disabling this on tablet and greater viewports (inspect empty spot on picture, background-image prop on <main> tag) would basically result in removing 80% of the picture, keeping the content in place. Honestly proud of myself for figuring this one out. Tried an approch using withSizes, but I don't think withSizes likes css.
       style={{
         backgroundImage: `url(${props.image})`,
         backgroundSize: "cover",
@@ -31,7 +33,6 @@ function GameCard(props) {
           <p>{props.released}</p>
         </div>
       </MoreInfo>
-      {/* <img src={props.image} alt={props.name} /> */}
     </GameContainer>
   );
 }
