@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
-// withSizes adds responsiveness. Apparently almighty server-side rendering technology is unable to acces the width of the screen, so this guy made a sweet helper for it. https://github.com/renatorib/react-sizes
+// withSizes adds responsiveness. Apparently almighty server-side rendering technology is unable to access
+// the width of the screen, so this guy made a sweet helper for it. https://github.com/renatorib/react-sizes
 import withSizes from "react-sizes";
 
 import Home from "./pages/Home";
@@ -21,7 +22,8 @@ function App(props) {
     <Router>
       <AppWrapper>
         <Header />
-        {/* I can use withSizes to conditionally render a component based on device width. I have tried using it to conditionally style to no avail. Sticking with regular ol media queries for now */}
+        {/* I can use withSizes to conditionally render a component based on device width.
+        I have tried using it to conditionally style to no avail. Sticking with regular ol media queries for now */}
         {props.isMobile && <MobileNav />}
         <Switch>
           <Route path="/" exact component={Home} />

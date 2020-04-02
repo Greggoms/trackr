@@ -8,14 +8,20 @@ import Details from "../components/Details";
 import ExternalLinks from "../components/ExternalLinks";
 import Storyline from "../components/Storyline";
 
-// match is a vital piece of the puzzle. Whenever I use react-router-doms <Link> (GameList.js in this case [line 57]), I get a special prop called match. Match allows me to keep the urls consistent between api calls. This is important because I have to make a call to the api when GameList.js loads, and another time when a game is selected causing GamePage.js to load.
+// match is a vital piece of the puzzle. Whenever I use react-router-doms <Link> (GameList.js in this case [line 57]),
+// I get a special prop called match. Match allows me to keep the urls consistent between api calls.
+// This is important because I have to make a call to the api when GameList.js loads, and another time
+// when a game is selected causing GamePage.js to load.
 function GamePage({ match }) {
-  // Note that useState uses empty object as default here. That's because this api call returns a single game object with key:value pairs instead of an array of objects.
+  // Note that useState uses empty object as default here. That's because this api call returns a
+  // single game object with key:value pairs instead of an array of objects.
   const [game, setGame] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // setLoading useState used to make sure the game page doesnt appear until the data has been pulled into state. I didnt like the page appearing broken for a second before populating itself with content.
-  // Here we see match in action. one of the values I can access with match is params. params holds valuable info, such as an id. This id holds the games slug used in the url (ex. "the-witcher-3-wild-hunt").
+  // setLoading useState used to make sure the game page doesnt appear until the data has been pulled into state.
+  // I didnt like the page appearing broken for a second before populating itself with content.
+  // Here we see match in action. one of the values I can access with match is params. params holds valuable
+  // info, such as an id. This id holds the games slug used in the url (ex. "the-witcher-3-wild-hunt").
   const fetchItems = async () => {
     // Show loader
     setLoading(true);
