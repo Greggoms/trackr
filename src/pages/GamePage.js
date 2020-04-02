@@ -7,11 +7,9 @@ import Hero from "../components/Hero";
 import Details from "../components/Details";
 import ExternalLinks from "../components/ExternalLinks";
 import Storyline from "../components/Storyline";
-
-// match is a vital piece of the puzzle. Whenever I use react-router-doms <Link> (GameList.js in this case [line 57]),
-// I get a special prop called match. Match allows me to keep the urls consistent between api calls.
-// This is important because I have to make a call to the api when GameList.js loads, and another time
-// when a game is selected causing GamePage.js to load.
+/*
+match is a vital piece of the puzzle. Whenever I use react-router-doms <Link> (GameList.js in this case [line 57]), I get a special prop called match. Match allows me to keep the urls consistent between api calls. This is important because I have to make a call to the api when GameList.js loads, and another time when a game is selected causing GamePage.js to load.
+*/
 function GamePage({ match }) {
   // Note that useState uses empty object as default here. That's because this api call returns a
   // single game object with key:value pairs instead of an array of objects.
