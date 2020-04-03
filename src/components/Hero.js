@@ -49,7 +49,6 @@ const HeroContainer = styled.div`
         titleBackground 2s 2s ease-out forwards;
       margin-top: 0;
       height: 100%;
-      text-align: left;
     }
   }
 
