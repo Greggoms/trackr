@@ -31,13 +31,9 @@ info, such as an id. This id holds the games slug used in the url (ex. "the-witc
     setLoading(true);
     // Gather data and store it in a var called data
     const data = await fetch(
-      `https://rawg-video-games-database.p.rapidapi.com/games/${match.params.id}`,
+      `https://api.rawg.io/api/games/${match.params.id}?key=838ad08150554e389bcd764ebfcc48b3`,
       {
-        method: "GET",
-        headers: {
-          "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-          "x-rapidapi-key": "a00e389c9bmsh5840137eb270ffep11feabjsn89b37f0109f9"
-        }
+        method: "GET"
       }
     );
     // Make data readable
@@ -93,12 +89,13 @@ info, such as an id. This id holds the games slug used in the url (ex. "the-witc
         game_series_count={game_series_count}
         esrb_rating={esrb_rating}
       />
-      <video
+      {clip && <video
         src={clip.clip}
         type="video/mp4"
         controls
         poster={background_image_additional}
-      />
+      />}
+      
       <ExternalLinks website={website} reddit_url={reddit_url} />
       <Storyline description_raw={description_raw} />
     </GamePageContainer>

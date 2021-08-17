@@ -21,13 +21,9 @@ function GameList() {
     setLoading(true);
     // Get data
     const data = await fetch(
-      "https://rawg-video-games-database.p.rapidapi.com/games",
+      "https://api.rawg.io/api/games?key=838ad08150554e389bcd764ebfcc48b3",
       {
-        method: "GET",
-        headers: {
-          "x-rapidapi-host": "rawg-video-games-database.p.rapidapi.com",
-          "x-rapidapi-key": "a00e389c9bmsh5840137eb270ffep11feabjsn89b37f0109f9"
-        }
+        method: "GET"
       }
     );
     // Make data usable
@@ -55,6 +51,7 @@ function GameList() {
         ({
           id,
           slug,
+          metacritic,
           name,
           background_image,
           rating,
@@ -65,6 +62,7 @@ function GameList() {
           <Link key={id} to={`/games/${slug}`}>
             <GameCard
               name={name}
+              metacritic={metacritic}
               image={background_image}
               rating={rating}
               rating_top={rating_top}
