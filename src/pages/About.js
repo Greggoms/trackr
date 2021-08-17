@@ -8,8 +8,8 @@ const About = () => {
       <p>
         Trackr is a webapp that can be used to find more information about a
         list of games. The list of games comes from{" "}
-        <a href="https://rapidapi.com/accujazz/api/rawg-video-games-database?endpoint=apiendpoint_e4e2766f-1422-4b88-bd10-22acdb7c9a16">
-          RapidAPI's
+        <a href="https://rawg.io/apidocs">
+          RAWG's
         </a>{" "}
         game database.
       </p>
