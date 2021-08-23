@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, HashRouter, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
 /*
@@ -22,7 +22,7 @@ const AppWrapper = styled.div`
 
 function App(props) {
   return (
-    <Router>
+    <HashRouter>
       <AppWrapper>
         <Header />
         {/* I can use withSizes to conditionally render a component based on device width.
@@ -35,7 +35,7 @@ function App(props) {
           <Route path="/games/:id" component={GamePage} />
         </Switch>
       </AppWrapper>
-    </Router>
+    </HashRouter>
   );
 }
 
