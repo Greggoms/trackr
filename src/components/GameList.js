@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import GameCard from "./GameCard";
 
+
 function GameList() {
   /*
   I need these two useState calls for my http request.
@@ -16,12 +17,13 @@ function GameList() {
   setLoading useState used to make sure the game page doesnt appear until the data has been pulled into state.
   I didnt like the page appearing broken for a second before populating itself with content.
   */
+  const key = process.env.REACT_APP_API_KEY;
   const fetchItems = async () => {
     // Display loader
     setLoading(true);
     // Get data
     const data = await fetch(
-      "https://api.rawg.io/api/games?key=838ad08150554e389bcd764ebfcc48b3",
+      `https://api.rawg.io/api/games?key=${key}`,
       {
         method: "GET"
       }
